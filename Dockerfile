@@ -11,14 +11,24 @@ RUN apt-get update && apt-get install -y \
     gcc \
     && rm -rf /var/lib/apt/lists/*
 
-# 复制依赖文件
-COPY requirements.txt .
+# 首先只复制 requirements.txt
+COPY requirements.txt ./
 
 # 安装Python依赖
 RUN pip install --no-cache-dir -r requirements.txt
 
+# 创建必要的目录
+RUN mkdir -p /app/services /app/apps /app/core /tmp
+
 # 复制项目文件
-COPY . .
+COPY services/ ./services/
+COPY apps/ ./apps/
+COPY core/ ./core/
+COPY site-bot.py ./
+
+# 确保目录权限正确
+RUN chmod -R 755 /app && \
+    chmod -R 777 /tmp
 
 # 设置启动命令
 CMD ["python", "site-bot.py"] 
