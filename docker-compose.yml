@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  site-bot:
+    build: .
+    container_name: site-bot
+    volumes:
+      - .:/app
+      - /tmp:/tmp
+    environment:
+      - TELEGRAM_BOT_TOKEN=${TELEGRAM_BOT_TOKEN}
+      - TELEGRAM_TARGET_CHAT=${TELEGRAM_TARGET_CHAT}
+      - DISCORD_TOKEN=${DISCORD_TOKEN}
+    restart: unless-stopped 
