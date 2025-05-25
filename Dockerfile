@@ -1,4 +1,4 @@
-FROM python:3.8-slim
+FROM python:3.11-slim
 
 # 设置工作目录
 WORKDIR /app
@@ -18,7 +18,7 @@ COPY requirements.txt ./
 RUN pip install --no-cache-dir -r requirements.txt
 
 # 创建必要的目录
-RUN mkdir -p /app/services /app/apps /app/core /tmp
+RUN mkdir -p /app/services /app/apps /app/core /tmp /app/storage/rss/config /app/storage/rss/sitemaps
 
 # 复制项目文件
 COPY services/ ./services/
@@ -28,7 +28,8 @@ COPY site-bot.py ./
 
 # 确保目录权限正确
 RUN chmod -R 755 /app && \
-    chmod -R 777 /tmp
+    chmod -R 777 /tmp && \
+    chmod -R 777 /app/storage
 
 # 设置启动命令
 CMD ["python", "site-bot.py"] 
