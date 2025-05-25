@@ -11,12 +11,14 @@ RUN apt-get update && apt-get install -y \
     gcc \
     && rm -rf /var/lib/apt/lists/*
 
-# 复制项目文件
+# 复制依赖文件
 COPY requirements.txt .
-COPY . .
 
 # 安装Python依赖
 RUN pip install --no-cache-dir -r requirements.txt
+
+# 复制项目文件
+COPY . .
 
 # 设置启动命令
 CMD ["python", "site-bot.py"] 
